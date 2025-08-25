@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitaminShopTunisia | Professional Supplements</title>
+    
+    <!-- === LOGO POUR L'ONGLET DU NAVIGATEUR (FAVICON) AJOUTÉ ICI === -->
+    <link rel="icon" type="image/png" href="https://quickimagetools.com/uploads/image_68ac66b16c7688.45275603.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Teko:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00F0FF; /* Cyan Vif */
+            --primary-dark: #007BFF; /* Bleu Profond */
+            --accent: #FFFFFF;
+            --text: #E0E0E0;
+            --text-secondary: #A0A0A0;
+            --dark-bg: #0D1117;
+            --card-bg: rgba(22, 27, 34, 0.7);
+            --border: rgba(60, 190, 255, 0.2);
+            --glow-shadow: 0 0 15px rgba(0, 240, 255, 0.1), 0 0 30px rgba(0, 123, 255, 0.1);
+            --success: #00FF7F; /* Vert vif pour le succès */
+            --success-glow: rgba(0, 255, 127, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+            background: 
+                radial-gradient(circle at 15% 25%, var(--primary-dark) 0%, transparent 20%),
+                radial-gradient(circle at 85% 75%, var(--primary) 0%, transparent 25%);
+            filter: blur(100px); opacity: 0.3;
+            animation: moveAurora 20s linear infinite alternate;
+        }
+
+        @keyframes moveAurora {
+            from { transform: rotate(0deg) scale(1.2); }
+            to { transform: rotate(360deg) scale(1.5); }
+        }
+
+        .navbar {
+            background: rgba(13, 17, 23, 0.8); padding: 1.2rem 5%; display: flex;
+            justify-content: space-between; align-items: center; position: sticky;
+            top: 0; z-index: 1000; border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        }
+        .logo a {
+            font-family: 'Teko', sans-serif; font-size: 2.5rem; font-weight: 700;
+            letter-spacing: 2px; color: var(--accent); text-decoration: none;
+            text-shadow: 0 0 10px var(--primary);
+        }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-weight: 500;
+            letter-spacing: 1px; transition: color 0.3s, text-shadow 0.3s; position: relative;
+            cursor: pointer;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: -8px;
+            left: 50%; transform: translateX(-50%);
+            background: radial-gradient(var(--primary), transparent);
+            transition: width 0.4s ease;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        .hero-section {
+            min-height: 80vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 4rem 2rem;
+        }
+        .hero-content h1 {
+            font-family: 'Teko', sans-serif; font-size: 6rem; margin-bottom: 1rem;
+            font-weight: 700; letter-spacing: 2px; line-height: 1.1;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            animation: gradient-text 5s ease infinite; background-size: 200% 200%;
+        }
+        @keyframes gradient-text { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        .tagline {
+            font-family: 'Teko', sans-serif; font-size: 2rem; letter-spacing: 4px;
+            margin: 0 0 2rem; color: var(--primary); text-transform: uppercase;
+        }
+
+        .categories-section, #products-section, #checkout-section, #thank-you-section { padding: 5rem 5%; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-family: 'Teko', sans-serif; font-size: 4rem; letter-spacing: 2px; color: var(--accent); }
+        
+        .categories-container, .products-container {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+             gap: 2.5rem;
+        }
+        
+        .category-card, .product-card {
+            background: var(--card-bg); border-radius: 16px; overflow: hidden; position: relative;
+            transition: transform 0.4s ease, box-shadow 0.4s ease; backdrop-filter: blur(12px);
+            animation: fadeInUp 0.6s ease-out forwards; opacity: 0;
+        }
+        .category-card:hover, .product-card:hover {
+            transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), var(--glow-shadow);
+        }
+        .category-card::before, .product-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 16px; border: 1px solid transparent;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; mask-composite: exclude;
+            opacity: 0.3; transition: opacity 0.4s ease;
+        }
+        .category-card:hover::before, .product-card:hover::before { opacity: 1; }
+        .category-card { height: 400px; background-size: cover; background-position: center; cursor: pointer; }
+        .category-card::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(13, 17, 23, 0.95) 10%, transparent 70%);
+        }
+        .category-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; z-index: 2; }
+        .category-content h3 { font-family: 'Teko', sans-serif; font-size: 2.5rem; }
+        .product-info h3 { font-family: 'Teko', sans-serif; font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem;}
+
+        .product-image-container { height: 280px; overflow: hidden; }
+        .product-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .product-card:hover .product-image { transform: scale(1.1); }
+        .product-badge {
+            position: absolute; top: 20px; right: 20px; background: var(--primary); color: var(--dark-bg);
+            padding: 6px 15px; border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+        }
+        .product-info { padding: 1.5rem; text-align: center; }
+        .product-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+        .price { font-weight: 700; color: var(--primary); font-size: 1.5rem; }
+
+        .cart-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 17, 23, 0.6);
+            backdrop-filter: blur(10px); z-index: 3000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s;
+        }
+        .cart-modal.active { opacity: 1; visibility: visible; }
+        .cart-content {
+            background: var(--dark-bg); width: 90%; max-width: 800px;
+            max-height: 85vh; border-radius: 16px; padding: 2.5rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), var(--glow-shadow);
+            border: 1px solid var(--border); display: flex; flex-direction: column;
+            transform: scale(0.95); transition: transform 0.4s;
+        }
+        .cart-modal.active .cart-content { transform: scale(1); }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .cart-header h2 { font-family: 'Teko', sans-serif; font-size: 3rem; color: var(--primary); }
+        .close-cart { background: none; border: none; color: var(--text-secondary); font-size: 2rem; cursor: pointer; transition: color 0.3s, transform 0.3s; }
+        .close-cart:hover { color: var(--primary); transform: rotate(90deg); }
+        .cart-items-list { overflow-y: auto; flex-grow: 1; padding-right: 1rem; }
+        .cart-item { display: grid; grid-template-columns: 80px 1fr auto auto; align-items: center; gap: 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+        .cart-item-image { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; }
+        .quantity-controls { display: flex; align-items: center; gap: 0.5rem; }
+        .quantity-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+        .remove-item { background: none; border: none; color: var(--text-secondary); font-size: 1.2rem; cursor: pointer; margin-left: 1rem;}
+        .cart-summary { margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+        .summary-total { display: flex; justify-content: space-between; font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; }
+        .summary-total span:last-child { color: var(--primary); }
+        .empty-cart-message { text-align: center; padding: 4rem 0; color: var(--text-secondary); }
+
+        #checkout-section { max-width: 1200px; margin: auto; }
+        .checkout-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
+        .checkout-form, .checkout-summary {
+            background: var(--card-bg); border-radius: 16px; padding: 2.5rem;
+            border: 1px solid var(--border);
+        }
+
+        /* --- STYLES DES BOUTONS "INSANE" (SECTION AJOUTÉE) --- */
+        .btn-primary {
+            padding: 0.8rem 1.6rem;
+            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 600; letter-spacing: 1px;
+            display: inline-flex; justify-content: center; align-items: center; gap: 10px;
+            position: relative; overflow: hidden;
+            text-decoration: none;
+            background-size: 200% auto;
+            transition: background-position 0.5s ease, transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .btn-primary:not([disabled]):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 25px rgba(0, 240, 255, 0.5);
+            background-position: right center; /* Fait glisser le dégradé */
+        }
+        
+        .btn-primary.w-100 {
+            width: 100%;
+        }
+
+        .btn-primary.added {
+            background-color: var(--success);
+            background-image: none; /* Enlève le dégradé */
+            box-shadow: 0 0 20px var(--success-glow);
+            cursor: default;
+        }
+
+        .btn-primary[disabled] {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        /* --- FIN DES STYLES DE BOUTONS --- */
+        
+        .floating-action-group {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .floating-btn {
+            width: 55px; height: 55px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; color: white;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        .floating-btn.cart-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            backdrop-filter: blur(10px);
+            animation-delay: 0.2s;
+        }
+        .floating-btn.whatsapp-btn { background: #25D366; }
+        .floating-btn.instagram-btn { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285aeb 90%); animation-delay: 0.4s;}
+        
+        .floating-btn:hover {
+            transform: scale(1.2) rotate(15deg);
+            box-shadow: 0 0 35px var(--primary);
+        }
+        .whatsapp-btn:hover { box-shadow: 0 0 35px #25D366; }
+        .instagram-btn:hover { box-shadow: 0 0 35px #d6249f; }
+        
+        .cart-count {
+            position: absolute; top: -5px; right: -5px;
+            background: red; color: white; border-radius: 50%;
+            width: 24px; height: 24px; font-size: 0.8rem;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            transform: scale(1);
+        }
+        .cart-count.pop {
+            animation: pop-effect 0.4s ease-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 8px 25px rgba(0,0,0,0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 25px rgba(0, 240, 255, 0.5); transform: scale(1.05); }
+        }
+
+        @keyframes pop-effect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+
+        .section-hidden { display: none; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 992px) { 
+            .checkout-grid { grid-template-columns: 1fr; } 
+            .checkout-summary { order: -1; } 
+        }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; padding: 1rem 5%; }
+            .hero-content h1 { font-size: 4rem; }
+            .tagline { font-size: 1.5rem; }
+            .section-header h2 { font-size: 3.5rem; }
+            .cart-content { padding: 1.5rem; }
+            .cart-header h2 { font-size: 2.5rem; }
+            .cart-item { grid-template-columns: 60px 1fr auto; gap: 1rem;}
+        }
+
+        @media (max-width: 576px) {
+            .categories-section, #products-section, #checkout-section { padding: 4rem 1rem; }
+            .hero-content h1 { font-size: 3.2rem; }
+            .tagline { font-size: 1.2rem; }
+            .section-header h2 { font-size: 2.8rem; }
+            .floating-action-group {
+                bottom: 15px; right: 15px; gap: 12px;
+            }
+            .floating-btn {
+                width: 50px; height: 50px; font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="logo"><a href="#" id="logo-link">VITAMIN<span>SHOP</span></a></div>
+        <div class="nav-links">
+            <a id="home-link">Accueil</a>
+            <a href="#categories">Produits</a>
+            <a href="#">Nutrition</a>
+            <a href="https://www.instagram.com/vitaminshoptunisia" target="_blank">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-section" id="hero">
+            <div class="hero-content"><h1>PERFORMANCE REDEFINED</h1><span class="tagline">L'EXCELLENCE EN NUTRITION SPORTIVE</span></div>
+        </section>
+        
+        <section class="categories-section" id="categories">
+             <div class="section-header"><h2>EXPLORER PAR OBJECTIF</h2></div>
+             <div class="categories-container">
+                <div class="category-card" data-category="whey" style="background-image: url('https://images.unsplash.com/photo-1579758629938-03607ccdbaba?q=80&w=2070&auto-format&fit=crop');"><div class="category-content"><h3>Whey</h3></div></div>
+                <div class="category-card" data-category="gainers" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto-format&fit=crop');"><div class="category-content"><h3>Mass Gainers</h3></div></div>
+                <div class="category-card" data-category="creatine" style="background-image: url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop');"><div class="category-content"><h3>Creatine</h3></div></div>
+                <div class="category-card" data-category="multivitamin" style="background-image: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto-format&fit=crop');"><div class="category-content"><h3>Multivitamin</h3></div></div>
+                <div class="category-card" data-category="bruleurs" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto-format&fit=crop');"><div class="category-content"><h3>Brûleurs</h3></div></div>
+                <div class="category-card" data-category="preworkout" style="background-image: url('https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop');"><div class="category-content"><h3>Pre-Workout</h3></div></div>
+                <!-- === NOUVELLES CATÉGORIES AJOUTÉES ICI === -->
+                <div class="category-card" data-category="bcaaeaa" style="background-image: url('https://quickimagetools.com/uploads/image_68ac6d6da63715.32065882.jpg');"><div class="category-content"><h3>Accessoires</h3></div></div>
+                <div class="category-card" data-category="snacks" style="background-image: url('https://quickimagetools.com/uploads/image_68ac6da30e6c76.94185024.jpg');"><div class="category-content"><h3>acide aminé</h3></div></div>
+            </div>
+        </section>
+
+        <section id="products-section" class="section-hidden">
+            <div class="section-header"><h2 id="products-title">Notre Collection</h2></div>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <a href="#" id="back-to-categories-btn" class="btn-primary"><i class="fas fa-arrow-left"></i> Retour aux catégories</a>
+            </div>
+            <div class="products-container" id="products-list-container"></div>
+        </section>
+
+        <section id="checkout-section" class="section-hidden">
+             <div class="checkout-grid">
+                 <div class="checkout-form">
+                     <h3 class="form-title">Informations de Livraison</h3>
+                     <form id="checkout-form">
+                         <div class="form-group"><label for="name">Nom Complet</label><input type="text" id="name" required></div>
+                         <div class="form-group"><label for="address">Adresse</label><input type="text" id="address" required></div>
+                         <div class="form-group"><label for="city">Ville</label><input type="text" id="city" required></div>
+                         <div class="form-group"><label for="phone">Numéro de Téléphone</label><input type="tel" id="phone" required></div>
+                     </form>
+                 </div>
+                 <div class="checkout-summary">
+                     <h3 class="summary-title">Récapitulatif</h3>
+                     <div id="order-items-summary"></div>
+                     <div class="order-total"><span>TOTAL</span><span id="order-total-price">0 TND</span></div>
+                     <button class="btn-primary w-100" id="place-order-btn" style="margin-top: 2rem;">Passer la Commande</button>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+
+    <div class="cart-modal" id="cart-modal"><div class="cart-content"><div class="cart-header"><h2>Votre Panier</h2><button class="close-cart" id="close-cart-btn">&times;</button></div><div class="cart-items-list" id="cart-items-list"></div><div class="cart-summary"><div class="summary-total"><span>Total</span><span id="cart-total-price">0 TND</span></div><button class="btn-primary w-100" id="go-to-checkout-btn">Procéder au Paiement</button></div></div></div>
+    
+    <div class="floating-action-group">
+        <a href="https://www.instagram.com/vitaminshoptunisia" target="_blank" class="floating-btn instagram-btn"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/216XXXXXXXXX" target="_blank" class="floating-btn whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="floating-btn cart-btn" id="cart-btn">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </a>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        let cart = [];
+        const productsData = {
+            "whey": [ 
+                { id: 101, name: "Whey Gold Standard", price: 340, image: "https://quickimagetools.com/uploads/image_68ac3146aebbe1.27401875.png", badge: "ISOLATE" },
+                { id: 102, name: "Pure Whey gns", price: 190, image: "https://quickimagetools.com/uploads/image_68ac31c68e51e9.34138263.png", badge: "CONCENTRATE" },
+                { id: 103, name: "Nitro Whey gns", price: 190, image: "https://quickimagetools.com/uploads/image_68ac3269a3d220.73829201.png", badge: "PERFORMANCE" },
+                { id: 104, name: "Elita Whey Protein", price: 230, image: "https://quickimagetools.com/uploads/image_68ac34bc28ef60.10864967.png", badge: "ISOLATE" },
+                { id: 105, name: "Whey Complex", price: 270, image: "https://quickimagetools.com/uploads/image_68ac358ca1fff4.21645441.png", badge: "BLEND" },
+                { id: 106, name: "Gold Whey vs", price: 230, image: "https://quickimagetools.com/uploads/image_68ac36c014c239.76635177.png", badge: "PREMIUM" },             
+                { id: 107, name: "Nitro Tech Whey Gold", price: 270, image: "https://quickimagetools.com/uploads/image_68ac374b21a214.30834778.png", badge: "MUSCLETECH" },
+                { id: 108, name: "Nitro Tech Whey Protein", price: 240, image: "https://quickimagetools.com/uploads/image_68ac37cf693ad4.58663607.png", badge: "MUSCLETECH" },
+                { id: 109, name: "MrX Whey Testo", price: 220, image: "https://quickimagetools.com/uploads/image_68ac3868578a85.94815572.png", badge: "TESTO BOOST" }
+            ],
+            "gainers": [
+                { id: 201, name: "Big Mass Gainers 6Kg", price: 210, image: "https://quickimagetools.com/uploads/image_68ac3fbf0b43d7.27692548.png", badge: "6 KG" },
+                { id: 202, name: "Complex Mass Pro", price: 260, image: "https://quickimagetools.com/uploads/image_68ac41becb01c8.42245242.png", badge: "PRO SERIES" },
+                { id: 203, name: "Mass Gainer Zero", price: 260, image: "https://quickimagetools.com/uploads/image_68ac416c512420.71711645.png", badge: "MASSE SÈCHE" },
+                { id: 204, name: "Gold Mass", price: 160, image: "https://quickimagetools.com/uploads/image_68ac40e98397e1.75090952.png", badge: "KEVIN LEVRONE" },
+                { id: 205, name: "Real Mass 6.8kg", price: 240, image: "https://quickimagetools.com/uploads/image_68ac4256ba56a2.22634787.png", badge: "6.8 KG" },
+                { id: 206, name: "Serious Mass", price: 350, image: "https://quickimagetools.com/uploads/image_68ac42fe8a52b7.65420585.png", badge: "ULTRA CALORIQUE" },
+                { id: 207, name: "Gain Bolic", price: 300, image: "https://quickimagetools.com/uploads/image_68ac43946964b1.41006067.png", badge: "OLIMP" },
+                { id: 208, name: "Big Mass Gainer 3Kg", price: 140, image: "https://quickimagetools.com/uploads/image_68ac44a57784a6.59647869.png", badge: "3 KG" },
+                { id: 209, name: "Legend Gainer", price: 260, image: "https://quickimagetools.com/uploads/image_68ac45fac67a20.10329974.png", badge: "ERIC FAVRE" },
+                { id: 210, name: "Levro Legendary Mass", price: 260, image: "https://quickimagetools.com/uploads/image_68ac467e8ff4f3.14110273.png", badge: "KEVIN LEVRONE" },
+                { id: 211, name: "Mass Tech Extreme", price: 350, image: "https://quickimagetools.com/uploads/image_68ac4729aa0810.06863573.png", badge: "2000" }
+            ],
+            "creatine": [
+                { id: 301, name: "Monohydrate gns", price: 110, image: "https://quickimagetools.com/uploads/image_68ac4c3a356795.50445023.png", badge: "PUISSANCE" },
+                { id: 302, name: "Rule 1", price: 150, image: "https://quickimagetools.com/uploads/image_68ac4e6f3e7031.29257015.png", badge: "AVANCÉE" },
+                { id: 303, name: "Monohydrate GSN 200 Gr", price: 60, image: "https://quickimagetools.com/uploads/image_68ac4caba379a0.06499363.png", badge: "SANS RÉTENTION" },
+                { id: 304, name: "Real Pharm 500 Gr", price: 110, image: "https://quickimagetools.com/uploads/image_68ac4dad163f97.20085452.png", badge: "500 GR" },
+                { id: 305, name: "Scitec Nutrition", price: 130, image: "https://quickimagetools.com/uploads/image_68ac4f3ca67698.69962030.png", badge: "TOP QUALITÉ" },
+                { id: 306, name: "Kevin Levrone Gold", price: 95, image: "https://quickimagetools.com/uploads/image_68ac4fcbaaf257.17197202.png", badge: "GOLD SERIES" },
+                { id: 307, name: "Biotech USA", price: 130, image: "https://quickimagetools.com/uploads/image_68ac507893ac83.92125908.png", badge: "100% MICRO" },
+                { id: 308, name: "Yaba Labs", price: 95, image: "https://quickimagetools.com/uploads/image_68ac511c520d32.38638735.png", badge: "HARDCORE" },
+                { id: 309, name: "Platinium Muscletech", price: 170, image: "https://quickimagetools.com/uploads/image_68ac5197e21f15.20616770.png", badge: "PLATINIUM" },
+                { id: 310, name: "Ostrovit 500 Gr", price: 110, image: "https://quickimagetools.com/uploads/image_68ac51dc457d86.14570109.png", badge: "500 GR" },
+                { id: 311, name: "ON", price: 150, image: "https://quickimagetools.com/uploads/image_68ac5253ddd265.69897399.png", badge: "MICRONIZED" },
+                { id: 312, name: "Creawin 500 Gr", price: 150, image: "https://quickimagetools.com/uploads/image_68ac4a83b40ce3.59849312.png", badge: "AVANCÉE" },
+                { id: 313, name: "Creawin 300 Gr", price: 110, image: "https://quickimagetools.com/uploads/image_68ac52ee7b67d1.70550369.png", badge: "AVANCÉE" },
+            ],
+            "multivitamin": [ 
+                { id: 401, name: "Multi Vitamin ", price: 110, image: "https://quickimagetools.com/uploads/image_68ac5774554cb0.92997402.png", badge: "ESSENTIEL" },
+                { id: 402, name: "Ostrovit ", price: 90, image: "https://quickimagetools.com/uploads/image_68ac586aecf081.94688972.png", badge: "SANTÉ" },
+				{ id: 403, name: "Gns ", price: 20, image: "https://quickimagetools.com/uploads/image_68ac5972f3bab5.62396598.png", badge: "SOMMEIL" },
+            ],
+            "bruleurs": [ 
+                { id: 501, name: "Lipo 6 Black ", price:120,image: "https://quickimagetools.com/uploads/image_68ac5b9f14fc92.39784646.png", badge: "SANS STIMULANT" },
+                { id: 502, name: "Lipo-6 Stim Free ", price: 140, image: "https://quickimagetools.com/uploads/image_68ac5c80949872.87540446.png", badge: "ULTRA CONCENTRÉ" },
+				{ id: 503, name: "L Carnitine Liquide", price: 120, image: "https://quickimagetools.com/uploads/image_68ac5d57e31ba4.46181059.png", badge: "ULTRA CONCENTRÉ" },
+				{ id: 504, name: "L Carnitine Caps", price: 110, image: "https://quickimagetools.com/uploads/image_68ac5df53ea128.54303680.png", badge: "ULTRA CONCENTRÉ" },
+            ],
+            "preworkout": [ 
+                { id: 601, name: "Born Rage", price: 120, image: "https://quickimagetools.com/uploads/image_68ac5e93d4f496.88803354.png", badge: "ÉNERGISANT" },
+                { id: 602, name: "The Conqueror ", price: 130, image: "https://quickimagetools.com/uploads/image_68ac5f6ca20b97.90873859.png", badge: "RÉCUPÉRATION" },
+				{ id: 601, name: "Citrulline", price: 90,image: "https://quickimagetools.com/uploads/image_68ac68110d0a70.04804107.png", badge: "ÉNERGISANT" },
+				{ id: 601, name: "Arginine", price: 90,image: "https://quickimagetools.com/uploads/image_68ac68832765b5.10457377.png", badge: "ÉNERGISANT" },
+            ],
+            // === DONNÉES DES NOUVEAUX PRODUITS AJOUTÉES ICI ===
+            "bcaaeaa": [
+                { id: 802, name: "Shaker", price: 45, image: "https://quickimagetools.com/uploads/image_68ac6b580b6801.68465749.png", badge: "100% NATUREL" },
+				{ id: 801, name: "Ceinture", price:130, image: "https://quickimagetools.com/uploads/image_68ac6bd26cbcc8.53992445.png", badge: "GOURMAND" },
+                { id: 801, name: "Ceinture", price:130, image: "https://quickimagetools.com/uploads/image_68ac694a0aa355.71207160.png", badge: "GOURMAND" },
+				{ id: 801, name: "Gants", price:130, image: "https://quickimagetools.com/uploads/image_68ac6c13df2d55.11229705.png", badge: "GOURMAND" },
+            ],
+            "snacks": [
+                { id: 801, name: "Bcaa Optimax", price:130, image: "https://quickimagetools.com/uploads/image_68ac694a0aa355.71207160.png", badge: "GOURMAND" },
+                { id: 802, name: "Peanut Butter", price: 45, image: "https://quickimagetools.com/uploads/image_68ac69e16323f3.61250268.png", badge: "100% NATUREL" },
+				{ id: 801, name: "Eaa", price:120, image: "https://quickimagetools.com/uploads/image_68ac6a65d84d02.24932282.png", badge: "GOURMAND" },
+				{ id: 801, name: "Boosteur De Testo ", price:130, image: "https://quickimagetools.com/uploads/image_68ac6ae79ab141.43768382.png", badge: "GOURMAND" },
+            ]
+        };
+        
+        const allMainSections = document.querySelectorAll('main > section');
+        const productsSection = document.getElementById('products-section');
+        const checkoutSection = document.getElementById('checkout-section');
+        
+        const cartBtn = document.getElementById('cart-btn');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartTotalPriceEl = document.getElementById('cart-total-price');
+        const goToCheckoutBtn = document.getElementById('go-to-checkout-btn');
+        
+        function showSection(sectionToShow, isHomePage = false) {
+            allMainSections.forEach(sec => sec.classList.add('section-hidden'));
+            if(isHomePage) {
+                document.getElementById('hero').classList.remove('section-hidden');
+                document.getElementById('categories').classList.remove('section-hidden');
+                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                 sectionToShow.classList.remove('section-hidden');
+                 window.scrollTo({ top: sectionToShow.offsetTop - 80, behavior: 'smooth' });
+            }
+        }
+        
+        function updateCart() {
+            cartItemsList.innerHTML = '';
+            let totalPrice = 0;
+            let totalItems = 0;
+
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<div class="empty-cart-message">Votre panier est vide.</div>';
+                goToCheckoutBtn.disabled = true;
+            } else {
+                goToCheckoutBtn.disabled = false;
+                cart.forEach(item => {
+                    totalPrice += item.price * item.quantity;
+                    totalItems += item.quantity;
+                    cartItemsList.innerHTML += `<div class="cart-item"><img src="${item.image}" alt="${item.name}" class="cart-item-image"><div class="cart-item-details"><h4>${item.name}</h4><span>${item.price} TND</span></div><div class="quantity-controls"><button class="quantity-btn" data-id="${item.id}" data-action="decrease">-</button><span>${item.quantity}</span><button class="quantity-btn" data-id="${item.id}" data-action="increase">+</button></div><button class="remove-item" data-id="${item.id}"><i class="fas fa-trash"></i></button></div>`;
+                });
+            }
+            cartTotalPriceEl.textContent = `${totalPrice} TND`;
+            cartCount.textContent = totalItems;
+            
+            if(totalItems > 0) {
+                cartCount.style.display = 'flex';
+                cartCount.classList.add('pop');
+                cartCount.addEventListener('animationend', () => cartCount.classList.remove('pop'), { once: true });
+            } else {
+                cartCount.style.display = 'none';
+            }
+            
+            localStorage.setItem('vitaminShopCart', JSON.stringify(cart));
+        }
+
+        function changeQuantity(productId, newQuantity) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                if (newQuantity <= 0) {
+                    cart = cart.filter(cartItem => cartItem.id !== productId);
+                } else {
+                    item.quantity = newQuantity;
+                }
+            }
+            updateCart();
+        }
+
+        document.getElementById('logo-link').addEventListener('click', e => { e.preventDefault(); showSection(null, true); });
+        document.getElementById('home-link').addEventListener('click', e => { e.preventDefault(); showSection(null, true); });
+        document.getElementById('back-to-categories-btn').addEventListener('click', e => { e.preventDefault(); showSection(null, true); });
+
+        cartBtn.addEventListener('click', e => { e.preventDefault(); cartModal.classList.add('active'); });
+        closeCartBtn.addEventListener('click', () => cartModal.classList.remove('active'));
+        cartModal.addEventListener('click', e => { if (e.target === cartModal) cartModal.classList.remove('active'); });
+        
+        cartItemsList.addEventListener('click', e => {
+            const target = e.target.closest('button');
+            if (!target) return;
+            const productId = parseInt(target.dataset.id);
+            if(isNaN(productId)) return;
+            
+            const item = cart.find(i => i.id === productId);
+            if (target.classList.contains('remove-item')) changeQuantity(productId, 0);
+            else if (target.dataset.action === 'increase') changeQuantity(productId, item.quantity + 1);
+            else if (target.dataset.action === 'decrease') changeQuantity(productId, item.quantity - 1);
+        });
+        
+        goToCheckoutBtn.addEventListener('click', () => {
+            cartModal.classList.remove('active');
+            const summaryContainer = document.getElementById('order-items-summary');
+            const totalEl = document.getElementById('order-total-price');
+            summaryContainer.innerHTML = '';
+            let totalPrice = 0;
+            cart.forEach(item => {
+                totalPrice += item.price * item.quantity;
+                summaryContainer.innerHTML += `<div class="order-item"><span>${item.name} (x${item.quantity})</span><span>${item.price * item.quantity} TND</span></div>`;
+            });
+            totalEl.textContent = `${totalPrice} TND`;
+            showSection(checkoutSection);
+        });
+
+        document.getElementById('place-order-btn').addEventListener('click', () => {
+            if (document.getElementById('checkout-form').checkValidity()) {
+                 alert('Commande passée avec succès !');
+                 showSection(null, true);
+                 cart = [];
+                 updateCart();
+            } else {
+                 alert('Veuillez remplir tous les champs de livraison.');
+            }
+        });
+        
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.dataset.category;
+                document.getElementById('products-title').textContent = this.querySelector('h3').textContent;
+                const container = document.getElementById('products-list-container');
+                container.innerHTML = '';
+                
+                if (productsData[category]) {
+                    productsData[category].forEach(product => {
+                        container.innerHTML += `<div class="product-card"><div class="product-image-container"><img src="${product.image}" alt="${product.name}" class="product-image"><span class="product-badge">${product.badge}</span></div><div class="product-info"><h3>${product.name}</h3><div class="product-footer"><span class="price">${product.price} TND</span><button class="btn-primary add-to-cart" data-id="${product.id}"><i class="fas fa-cart-plus"></i> Ajouter</button></div></div></div>`;
+                    });
+                }
+
+                showSection(productsSection);
+                
+                container.querySelectorAll('.add-to-cart').forEach(button => {
+                    button.addEventListener('click', function() {
+                        if (this.classList.contains('added')) return;
+
+                        const productId = parseInt(this.dataset.id);
+                        let productData = null;
+                        for(const cat in productsData){
+                            const found = productsData[cat].find(p => p.id === productId);
+                            if(found) { productData = found; break; }
+                        }
+                        if (!productData) return;
+
+                        const existingItem = cart.find(item => item.id === productId);
+                        if (existingItem) existingItem.quantity++;
+                        else cart.push({ ...productData, quantity: 1 });
+                        
+                        updateCart();
+
+                        // --- PARTIE ANIMATION DU BOUTON "AJOUTER" ---
+                        const originalContent = this.innerHTML;
+                        this.classList.add('added');
+                        this.innerHTML = `<i class="fas fa-check"></i> Ajouté !`;
+                        this.disabled = true;
+
+                        setTimeout(() => {
+                            this.classList.remove('added');
+                            this.innerHTML = originalContent;
+                            this.disabled = false;
+                        }, 1500); // Le bouton revient à la normale après 1.5s
+                    });
+                });
+            });
+        });
+        
+        const savedCart = localStorage.getItem('vitaminShopCart');
+        if (savedCart) { 
+            cart = JSON.parse(savedCart); 
+        }
+        
+        const initialTotalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = initialTotalItems;
+        cartCount.style.display = initialTotalItems > 0 ? 'flex' : 'none';
+
+    });
+    </script>
+</body>
+</html>
